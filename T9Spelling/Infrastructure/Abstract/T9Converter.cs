@@ -20,6 +20,12 @@ namespace T9Spelling.Infrastructure.Abstract
 		private readonly int _maxLength;
 		protected InputModel Input { get; }
 		public abstract string[] Convert();
+		/// <summary>
+		/// T9Converter constructor
+		/// </summary>
+		/// <param name="lines">Input lines</param>
+		/// <param name="minLength">The minimum value of a line length</param>
+		/// <param name="maxLength">The maximum value of a line length</param>
 		protected T9Converter(string[] lines, int minLength, int maxLength)
 		{
 			_minLength = minLength;
@@ -45,8 +51,12 @@ namespace T9Spelling.Infrastructure.Abstract
 				Cases = cases,
 				Lines = inputLines
 			};
-		}	
+		}
 
+		/// <summary>
+		/// Runs ConvertFrom method of a TypeConverter for each line
+		/// </summary>
+		/// <returns>Output result array</returns>
 		protected string[] ConvertLines()
 		{
 			var output = new List<string>();
@@ -57,19 +67,18 @@ namespace T9Spelling.Infrastructure.Abstract
 
 			var c = TypeDescriptor.GetConverter(typeof(InputLineModel));
 			foreach (var l in Input.Lines)
-			{	
-				if (l.Line.Length>=_minLength && l.Line.Length <= _maxLength)
+			{
+				//Adds an empty string if it's not possible to convert the value to its T9 code representation
+				var str = string.Empty;
+				if (l.Item.Length>=_minLength && l.Item.Length <= _maxLength)
 				{
 					var s = (string)c.ConvertFrom(l);
 					if (s != null)
 					{
-						output.Add(s);
+						str = s;
 					}					
 				}
-				else
-				{
-					output.Add(string.Empty);
-				}
+				output.Add(str);
 			}
 			return output.ToArray();
 		}

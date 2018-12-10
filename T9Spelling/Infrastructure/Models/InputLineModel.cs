@@ -10,9 +10,9 @@ namespace T9Spelling.Infrastructure.Models
 		readonly Regex expression = new Regex("^[a-z ]+$");
 		public InputLineModel(string line)
 		{
-			Line = expression.IsMatch(line) ? line : string.Empty;
+			Item = expression.IsMatch(line) ? line : string.Empty;
 		}
 
-		public string Line { get; }
+		public string Item { get; }
 	}
 }

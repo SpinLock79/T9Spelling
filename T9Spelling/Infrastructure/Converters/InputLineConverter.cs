@@ -9,11 +9,24 @@ namespace T9Spelling.Infrastructure.Converters
 {
 	public class InputLineConverter: TypeConverter
 	{
+		/// <summary>
+		/// Returns whether this converter can convert an object of InputLineModel to string that represents T9 code
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="sourceType"></param>
+		/// <returns></returns>
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
 			return sourceType == typeof(InputLineModel);
 		}
 
+		/// <summary>
+		/// Converts the given InputLineModel to string that represents T9 code
+		/// </summary>
+		/// <param name="context"></param>
+		/// <param name="culture"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public override object ConvertFrom(ITypeDescriptorContext context,
 		 CultureInfo culture,
 		 object value)
@@ -27,7 +40,7 @@ namespace T9Spelling.Infrastructure.Converters
 			var result = new StringBuilder();
 			if (!CanConvertFrom(value.GetType())) throw new ArgumentException($"The '{value}' value cannot be converted!");
 
-			var l = (value as InputLineModel).Line;
+			var l = (value as InputLineModel).Item;
 			var prev = '+';
 			var i = 0;
 
